@@ -293,7 +293,8 @@ public: //private:
     bool isReady()
     {
         Usb.Task();
-        if (Usb.getUsbTaskState() == USB_STATE_RUNNING)
+        // if (Usb.getUsbTaskState() == USB_STATE_RUNNING)
+        if (Usb.getUsbTaskState() >= USB_STATE_RUNNING)
         {
             return true;
         }

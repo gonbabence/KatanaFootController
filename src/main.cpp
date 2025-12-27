@@ -13,42 +13,43 @@
 
 MS3 katana;
 
-ChannelButton control1 = ChannelButton(29, 0, PARA_PC, PARA_PC, 1, 5);
-ChannelButton control2 = ChannelButton(33, 1, PARA_PC, PARA_PC, 2, 6);
-ChannelButton control3 = ChannelButton(26, 2, PARA_PC, PARA_PC, 3, 7);
-ChannelButton control4 = ChannelButton(36, 3, PARA_PC, PARA_PC, 4, 8);
-CCButton control5 = CCButton(39, 4, PARA_PREAMP_BOOST, PARA_PREAMP_BOOST, 0, 1, 1, LED_BOOST, true, true);
-EffectButton control6 = EffectButton(38, 9, PARA_BOOSTER, PARA_BOOSTER_LED, PARA_BOOSTER_STATE);
-EffectButton control7 = EffectButton(37, 8, PARA_MOD, PARA_MOD_LED, PARA_MOD_STATE);
-EffectButton control8 = EffectButton(23, 7, PARA_FX, PARA_FX_LED, PARA_FX_STATE);
-EffectButton control9 = EffectButton(22, 6, PARA_DELAY, PARA_DELAY_LED, PARA_DELAY_STATE);
-EffectButton control10 = EffectButton(25, 5, PARA_REVERB, PARA_REVERB_LED, PARA_REVERB_STATE);
-BankButton control11 = BankButton(32, 10);
-EffectBankButton control12 = EffectBankButton(28, 11);
-CCButton control13 = CCButton(30, 12, PARA_FOOT_VOLUME, PARA_FOOT_VOLUME, 100, 0, 1, LED_MUTE, false, true);
-CCButton control14 = CCButton(27, 13, PARA_LOOP, PARA_LOOP, 0, 1, 1, LED_LOOP, false, true);
-TapButton control15 = TapButton(31, 14, PARA_TAP_TIME, PARA_TAP_TIME);
+ChannelButton control1 = ChannelButton(3, 0, PARA_PC, PARA_PC, 1, 5);
+ChannelButton control2 = ChannelButton(4, 1, PARA_PC, PARA_PC, 2, 6);
+ChannelButton control3 = ChannelButton(5, 2, PARA_PC, PARA_PC, 3, 7);
+ChannelButton control4 = ChannelButton(6, 3, PARA_PC, PARA_PC, 4, 8);
+// CCButton control5 = CCButton(39, 4, PARA_PREAMP_BOOST, PARA_PREAMP_BOOST, 0, 1, 1, LED_BOOST, true, true);
+// EffectButton control6 = EffectButton(38, 9, PARA_BOOSTER, PARA_BOOSTER_LED, PARA_BOOSTER_STATE);
+// EffectButton control7 = EffectButton(37, 8, PARA_MOD, PARA_MOD_LED, PARA_MOD_STATE);
+// // EffectButton control8 = EffectButton(23, 7, PARA_FX, PARA_FX_LED, PARA_FX_STATE);
+// EffectButton control9 = EffectButton(22, 6, PARA_DELAY, PARA_DELAY_LED, PARA_DELAY_STATE);
+// EffectButton control10 = EffectButton(25, 5, PARA_REVERB, PARA_REVERB_LED, PARA_REVERB_STATE);
+// BankButton control11 = BankButton(32, 10);
+// EffectBankButton control12 = EffectBankButton(28, 11);
+// CCButton control13 = CCButton(30, 12, PARA_FOOT_VOLUME, PARA_FOOT_VOLUME, 100, 0, 1, LED_MUTE, false, true);
+// CCButton control14 = CCButton(27, 13, PARA_LOOP, PARA_LOOP, 0, 1, 1, LED_LOOP, false, true);
+// TapButton control15 = TapButton(31, 14, PARA_TAP_TIME, PARA_TAP_TIME);
 
 #define CONTROL_SIZE 15
 
-NeoPixelBrightnessBus<NeoRgbFeature, Neo800KbpsMethod> strip(CONTROL_SIZE, LED_PIN);
+// NeoPixelBrightnessBus<NeoRgbFeature, Neo800KbpsMethod> strip(CONTROL_SIZE, LED_PIN);
 
 Control *controller[CONTROL_SIZE] = {
     &control1,
     &control2,
     &control3,
     &control4,
-    &control5,
-    &control6,
-    &control7,
-    &control8,
-    &control9,
-    &control10,
-    &control11,
-    &control12,
-    &control13,
-    &control14,
-    &control15};
+    // &control5,
+    // &control6,
+    // &control7,
+    // &control8,
+    // &control9,
+    // &control10,
+    // &control11,
+    // &control12,
+    // &control13,
+    // &control14,
+    // &control15
+};
 
 Ticker tapTimer(blinkTapLed, 5000);
 bool isEffectBankPressed = false;
@@ -63,17 +64,19 @@ void setup()
     pinMode(controller[i]->getPin(), INPUT_PULLUP);
   }
 
-  strip.Begin();
-  strip.SetBrightness(LED_BRIGHTNESS);
-  strip.Show();
+//   strip.Begin();
+//   strip.SetBrightness(LED_BRIGHTNESS);
+//   strip.Show();
 
   setupKatana();
+  DEBUG("Setup done");
 }
 
 void loop()
 {
   for (int i = 0; i < CONTROL_SIZE; i++)
   {
+     DEBUG("Loop");
     if (controller[i]->changed())
     {
       DEBUG("Button was pressed - Number: ");
@@ -159,10 +162,12 @@ void handleIncomingData(unsigned long parameter, byte data)
 
 void setLed(Led led)
 {
+  return;
   if (led.ledPosition >= 0 && led.ledPosition < CONTROL_SIZE)
   {
-    strip.SetPixelColor(led.ledPosition, led.color);
-    strip.Show();
+    // TODO: normal led?
+    // strip.SetPixelColor(led.ledPosition, led.color);
+    // strip.Show();
   }
 }
 
@@ -296,7 +301,7 @@ void connectKatana()
 
       break;
     }
-    delay(100);
+    delay(1000);
   }
 }
 
